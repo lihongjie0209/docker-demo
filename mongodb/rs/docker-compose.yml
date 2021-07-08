@@ -1,0 +1,41 @@
+version: "3.3"
+services:
+    node1:
+        image: "mongo:4.4"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: 123456
+        ports:
+            - "27017:27017"
+        volumes:
+            - "node1_data:/data/db"
+            - "./keyFile:/etc/keyFile"
+        command: ["--bind_ip_all", "--replSet", "rs0", "--keyFile", "/etc/keyFile", "--auth"]
+    node2:
+        image: "mongo:4.4"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: 123456
+        ports:
+            - "27018:27017"
+        volumes:
+            - "./keyFile:/etc/keyFile"
+            - "node2_data:/data/db"
+              
+        command: ["--bind_ip_all", "--replSet", "rs0", "--keyFile", "/etc/keyFile", "--auth"]
+    node3:
+        image: "mongo:4.4"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: 123456
+        ports:
+            - "27019:27017"
+        volumes:
+            - "node3_data:/data/db"
+            - "./keyFile:/etc/keyFile"
+        
+        command: ["--bind_ip_all", "--replSet", "rs0", "--keyFile", "/etc/keyFile", "--auth"]
+volumes:
+     node1_data: {}
+     node2_data: {}
+     node3_data: {}
