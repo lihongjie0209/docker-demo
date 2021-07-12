@@ -1,0 +1,75 @@
+version: "3"
+services:
+    config1:
+        image: "mongo:4"
+        volumes:
+            - config1_data:/data/db
+        command: ["mongod", "--configsvr","--replSet", "configrs", "--dbpath", "/data/db", "--bind_ip_all" ]
+    config2:
+        image: "mongo:4"
+        volumes:
+            - config2_data:/data/db
+        command: ["mongod", "--configsvr","--replSet", "configrs", "--dbpath", "/data/db", "--bind_ip_all" ]
+    config3:
+        image: "mongo:4"
+        volumes:
+            - config3_data:/data/db
+        command: ["mongod", "--configsvr","--replSet", "configrs", "--dbpath", "/data/db", "--bind_ip_all" ]
+    s2r1:
+        image: "mongo:4"
+        volumes:
+            - s2r1_data:/data/db
+        command: ["mongod", "--shardsvr","--replSet", "s2", "--dbpath", "/data/db", "--bind_ip_all" ]
+    s2r2:
+        image: "mongo:4"
+        volumes:
+            - s2r2_data:/data/db
+        command: ["mongod", "--shardsvr","--replSet", "s2", "--dbpath", "/data/db", "--bind_ip_all" ]
+    s2r3:
+        image: "mongo:4"
+        volumes:
+            - s2r3_data:/data/db
+        command: ["mongod", "--shardsvr","--replSet", "s1", "--dbpath", "/data/db", "--bind_ip_all" ]
+    s1r1:
+        image: "mongo:4"
+        volumes:
+            - s1r1_data:/data/db
+        command: ["mongod", "--shardsvr","--replSet", "s1", "--dbpath", "/data/db", "--bind_ip_all" ]
+    s1r2:
+        image: "mongo:4"
+        volumes:
+            - s1r2_data:/data/db
+        command: ["mongod", "--shardsvr","--replSet", "s1", "--dbpath", "/data/db", "--bind_ip_all" ]
+    s1r3:
+        image: "mongo:4"
+        volumes:
+            - s1r3_data:/data/db
+        command: ["mongod", "--shardsvr","--replSet", "s1", "--dbpath", "/data/db", "--bind_ip_all" ]
+    mongos1:
+        image: "mongo:4"
+        volumes:
+            - mongos1_data:/data/db
+        command: ["mongos", "--configdb", "configrs/config1:27019, config2:27019, config3:27019", "--bind_ip_all" ]
+    mongos2:
+        image: "mongo:4"
+        volumes:
+            - mongos2_data:/data/db
+        command: ["mongos", "--configdb", "configrs/config1:27019, config2:27019, config3:27019", "--bind_ip_all" ]
+    mongos3:
+        image: "mongo:4"
+        volumes:
+            - mongos3_data:/data/db
+        command: ["mongos", "--configdb", "configrs/config1:27019, config2:27019, config3:27019", "--bind_ip_all" ]
+volumes:
+    config1_data: {} 
+    config2_data: {} 
+    config3_data: {} 
+    s1r1_data: {} 
+    s1r2_data: {} 
+    s1r3_data: {} 
+    s2r1_data: {} 
+    s2r2_data: {} 
+    s2r3_data: {} 
+    mongos1_data: {} 
+    mongos2_data: {} 
+    mongos3_data: {} 
